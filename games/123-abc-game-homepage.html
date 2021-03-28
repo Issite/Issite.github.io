@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<!-- This is based on DillingerLee's great template here:
+https://github.com/Team-Code/KA_Offline -->
+<html>
+ <head>
+    <title>Program Name</title>
+    <style>
+      body {
+        background-image: url("../images/background.jpg");
+        font-family: Garamond, serif;
+      }
+      .main {
+        border: 3px outset rgb(180, 200, 150);
+        background-color: rgb(230, 250, 200);
+        max-width: 800px;
+        margin: auto;
+      }
+      .top {
+        border: 3px solid rgb(185, 205, 155);
+        background-color: rgb(235, 255, 205);
+        max-width: 792px;
+        height: 65px;
+        margin: auto;
+        display: flex;
+      }
+      .top-option {
+        border: 1px solid rgb(185, 205, 155);
+        align-items: center;
+        justify-content: center;
+        width: 130px;
+        height: 65px;
+        float: left;
+        display: flex;
+      }
+      .content {
+        margin: 20px;
+        text-indent: 25px;
+      }
+    </style>
+</head>
+ <body>
+   <div class="main">
+      
+      <div class="top">
+        
+        <a href="../123-abc-homepage.html">
+          <div class="top-option">
+            Homepage
+          </div>
+        </a>
+        
+        <a href="../games">
+          <div class="top-option">
+            Games
+          </div>
+        </a>
+        
+        <a href="../literature">
+          <div class="top-option">
+            Literature
+          </div>
+        </a>
+        
+        <a href="../art">
+          <div class="top-option">
+            Art
+          </div>
+        </a>
+        
+        <a>
+          <div class="top-option">
+            Coming Soon!
+          </div>
+        </a>
+        
+        <a href="../index.html">
+          <div class="top-option">
+            Index
+          </div>
+        </a>
+        
+      </div>
+      
+      <div class="content">
+        <h1>This page links you to all games on the site.</h1>
+        <a href="mimic-octopus.html">
+            <p>Mimic Octopus</p>
+        </a>
+      </div>
+      
+    </div>
+  </body>
+ 
+ <!-- Run all the JavaScript stuff -->
+ <!-- Include the processing.js library -->
+ <!-- See https://khanacademy.zendesk.com/hc/en-us/articles/202260404-What-parts-of-ProcessingJS-does-Khan-Academy-support- for differences -->
+ <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script>
+ 
+ <script>
+    var sketchProc = function(processingInstance) {
+     with (processingInstance) {
+        size(400, 400);
+        frameRate(30);
+        
+        // ProgramCodeGoesHere
+        
+        
+    }};
+
+    // Get the canvas that Processing-js will use
+    var canvas = document.getElementById("mycanvas");
+    // Pass the function sketchProc (defined in myCode.js) to Processing's constructor.
+    var processingInstance = new Processing(canvas, sketchProc);
+ </script>
+
+</html>

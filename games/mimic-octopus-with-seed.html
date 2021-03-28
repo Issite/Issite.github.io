@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<!-- This is based on DillingerLee's great template here:
+https://github.com/Team-Code/KA_Offline -->
+<html>
+ <head>
+    <title>Mimic Octopus</title>
+    <style>
+      body {
+        background-image: url("../images/background.jpg");
+        font-family: Garamond, serif;
+      }
+      .main {
+        border: 3px outset rgb(180, 200, 150);
+        background-color: rgb(230, 250, 200);
+        max-width: 800px;
+        margin: auto;
+      }
+      .top {
+        border: 3px solid rgb(185, 205, 155);
+        background-color: rgb(235, 255, 205);
+        max-width: 792px;
+        height: 65px;
+        margin: auto;
+        display: flex;
+      }
+      .top-option {
+        border: 1px solid rgb(185, 205, 155);
+        align-items: center;
+        justify-content: center;
+        width: 130px;
+        height: 65px;
+        float: left;
+        display: flex;
+      }
+      .content {
+        margin: 20px;
+        text-indent: 25px;
+      }
+    </style>
+</head>
+ <body>
+   <div class="main">
+      
+      <div class="top">
+        
+        <a href="../123-abc-homepage.html">
+          <div class="top-option">
+            Homepage
+          </div>
+        </a>
+        
+        <a href="../games">
+          <div class="top-option">
+            Games
+          </div>
+        </a>
+        
+        <a href="../literature">
+          <div class="top-option">
+            Literature
+          </div>
+        </a>
+        
+        <a href="../art">
+          <div class="top-option">
+            Art
+          </div>
+        </a>
+        
+        <a>
+          <div class="top-option">
+            Coming Soon!
+          </div>
+        </a>
+        
+        <a href="../index.html">
+          <div class="top-option">
+            Index
+          </div>
+        </a>
+        
+      </div>
+      
+      <div class="content">
+        <p align="center">
+	        <!--This draws the Canvas on the webpage -->
+          <canvas id="mycanvas"></canvas>
+        </p>
+      </div>
+      
+    </div>
+  </body>
+ 
+ <!-- Run all the JavaScript stuff -->
+ <!-- Include the processing.js library -->
+ <!-- See https://khanacademy.zendesk.com/hc/en-us/articles/202260404-What-parts-of-ProcessingJS-does-Khan-Academy-support- for differences -->
+ <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script>
+ 
+ <script>
+    var sketchProc = function(processingInstance) {
+     with (processingInstance) {
+        size(600, 400);
+        frameRate(30);
+        
+        // ProgramCodeGoesHere
+        /**
+         * █▀▄▀█ ░▀░ █▀▄▀█ ░▀░ █▀▀   █▀▀█ █▀▀ ▀▀█▀▀ █▀▀█ █▀▀█ █░░█ █▀▀
+         * █░▀░█ ▀█▀ █░▀░█ ▀█▀ █░░   █░░█ █░░ ░░█░░ █░░█ █░░█ █░░█ ▀▀█
+         * ▀░░░▀ ▀▀▀ ▀░░░▀ ▀▀▀ ▀▀▀   ▀▀▀▀ ▀▀▀ ░░▀░░ ▀▀▀▀ █▀▀▀ ░▀▀▀ ▀▀▀
+         * A game about trying to blend in and not get caught!
+         * First enter a number 1-9 to set the number of people playing.
+         * Next, the game will select one of you to be the Mimic Octopus.
+         * After that, veiw your private screens one at a time, and if you
+         * are not the Octopus, the game will tell you where on the card
+         * the codeword is. If you are the Octopus, the game will let you
+         * know. After everyone knows either that they are the Octopus or
+         * where the codeword is, the game will show you a card. If you
+         * have the secret code you can find the codeword using this grid:
+         *    1,   2,   3,   4
+         * a
+         * b
+         * c
+         * d
+         * After that, players take turns saying one word that relates to
+         * the codeword. Since the Octopus does not know the codeword,
+         * they must guess and say a word that blends in with the others.
+         * Once everyone has said their word, everyone votes on who they
+         * think the Octopus is. If they get it wrong, the Octopus gets
+         * two points. If they get it correct, the Octopus has one chance
+         * to guess the codeword. If they guess correctly, they get one
+         * point, while if they guess incorrectly, everyone else gets one
+         * point. Play goes untill someone gets five points.
+         **/
+        {
+        var debug = false;
+        var proSho = function(line) {
+          this.line = line;
+          if (debug === true) {
+            println (this.line);
+          }
+        }
+          
+        var done = 0;
+        var seed1 = 0;
+        var seed2 = 0;
+        var seed3 = 0;
+        var seed4 = 0;
+        var finalSeed = 0;
+        var timer = 0;
+        var numberOfPlayers = 0;
+        var Octopus = 0;
+        var cardNum = 0;
+        var codeNum = 0;
+        var codeNumSeed = 0;
+        var codeLetterNum = 0;
+        var codeLetter = "z";
+        var wait = 0;
+        var playerUp = 10;
+        var display = "Player " + playerUp + ", press " + playerUp + ".";
+        var show = 0;
+        var cards = ["This is not a card!",
+"Fireman          Policeman       Doctor            Musician \n\n\nPlummer         Farmer             Author            Artist\n\n\nProgrammer   Photographer   Construction   Factory\n\n\nTrucker           House Keeper   Fast Food      Actor",
+"Accordion     Trumpet     Cello              Bass\n\n\nBagpipes       Guitar        Tuba              Flute\n\n\nOcarina         Drums        Banjo             Piano\n\n\nUkulele          Violin          Clarinet          Harmonica",
+"Watermelon       Blueberry       Tomato       Grape\n\n\nRaspberry          Pepper           Carrot        Apple\n\n\nCucumber          Banana          Cherry       Orange\n\n\nPineapple           Pear               Lemon      Strawberry",
+"Snowboarding        Hockey        Esports        Golf\n\n\nSwimming              Football        Nascar         Skiing\n\n\nEquestrian              Baseball      Soccer          Biking\n\n\nBasketball              Volleyball     Surfing          Tennis",
+"Polar Bear             Zebra              Robin         Cat\n\n\nChameleon            Falcon            Wolf            Dog\n\n\nHedgehog              Toucan           Shark          Fly\n\n\nDolphin                  Rabbit             Lion           Deer",
+"Beauty & Beast     The Grinch     Tangled     Moana\n\n\nThe Lego Movie     Toy Story       Frozen       Home\n\n\nFinding Nemo         Zootopia       Brave         Trolls\n\n\nThe Incredibles       Big Hero 6    Inside Out   Cars", "United States        Iceland           Russia           India\n\n\nGreat Britain         Mexico            France          Spain\n\n\nGreenland            Canada           Brazil            Japan\n\n\nGermany              Australia          Israel            China", "Bathsheba            Rachel            Miriam            Eve\n\n\nElizabeth              Hannah           Esther            Jael\n\n\nRebekah               Jezebel           Rahab           Ruth\n\n\nDeborah                Candice          Sarah            Mary", "Snakes & Ladders       Stratego       Trouble       Life\n\n\nGuess Who                  Scrabble      Othello       Clue\n\n\nCandyland                   Checkers      Chess        Blurt\n\n\nBattleship                    Monopoly      Catan        Sorry"];
+        var numOfCards = 7;
+        var white = [240, 190, 160];
+        var brown = [70, 35, 20];
+        textSize (25);
+        
+        var entryScene = function() {
+          display = "Enter First Seed Number.";
+          var cardScene = function() {
+            draw = function() {
+              background(white[0], white[1], white[2]);
+              fill (brown[0], brown[1], brown[2]);
+              text (cards[cardNum], 5, 30);
+              text ("Press 'd' when done.", 5, 375);
+              keyPressed = function() {
+                if (key.toString() === "d") {
+                  done = 0;
+                  seed1 = 0;
+                  seed2 = 0;
+                  seed3 = 0;
+                  seed4 = 0;
+                  finalSeed = 0;
+                  numberOfPlayers = 0;
+                  Octopus = 0;
+                  cardNum = 0;
+                  codeNum = 0;
+                  codeNumSeed = 0;
+                  codeLetterNum = 0;
+                  codeLetter = "z";
+                  wait = 0;
+                  playerUp = 10;
+                  display = "Player " + playerUp + ", press " + playerUp + ".";
+                  show = 0;
+                  entryScene();
+                }
+              }
+            }
+          }
+          var revealScene = function() {
+            draw = function() {
+              background (white[0], white[1], white[2]);
+              fill (brown[0], brown[1], brown[2]);
+              text (display, 20, height/2);
+              
+              if (show === 1) {
+                text ("Press 'c' to continue.", 20, (height/2) + 30);
+              }
+              
+              
+                
+              keyPressed = function() {
+                
+                if (key - 48 < 10 & wait === 0) {
+                  numberOfPlayers = key - 48;
+                  wait = 1;
+                } else if (key - 48 < numberOfPlayers + 1 & wait === 2) {
+                  playerUp = key - 48;
+                  if (playerUp === Octopus) {
+                    display = "You are the Mimic Octopus!"
+                    show = 1;
+                  } else {
+                  display = codeNum + ", " + codeLetter + " is the code.";
+                  show = 1;
+              }
+                }
+                
+                if (key.toString() === "c" & show === 1) {
+                  cardScene();
+                }
+                
+              }
+              
+              if (wait === 1) {
+                Octopus = finalSeed % 10;
+                
+                while (Octopus % 10 > numberOfPlayers || Octopus % 10 === 0) {
+                  Octopus = (Octopus + seed4)*seed4
+                }
+                
+                Octopus = Octopus % 10;
+                proSho ("Octopus = " + Octopus);
+                wait = 2;
+                display = "What number player are you?";
+                
+              }
+              
+            };
+          }
+          draw = function() {
+            background (brown[0], brown[1], brown[2]);
+            fill (white[0], white[1], white[2]);
+            text (display, 20, height/2);
+            keyPressed = function() {
+              if (key - 48 < 10 & done === 3) {
+                seed4 = key - 48;
+                finalSeed = (seed1 + seed2 + seed3 + seed4)*seed1*seed3*seed2*seed4;
+                while (finalSeed < 1000) {
+                  finalSeed = finalSeed*seed2;
+                }
+                cardNum = finalSeed.toString().substr(0, 1);
+                proSho ("finalSeed = " + finalSeed);
+                proSho ("first digit in finalSeed string = " + finalSeed.toString().substr(0,1));
+                
+                
+                
+                if (finalSeed.toString().substr(1, 1) === "0" || finalSeed.toString().substr(1, 1) === "9") {
+                  proSho ("second letter of finalSeed string is nine or zero");
+                  codeNumSeed = (9*seed3) % 10;
+                } else {
+                  proSho ("second letter of finalSeed string is one - eight");
+                  codeNumSeed = finalSeed.toString().substr(1, 1);
+                }
+                proSho ("last digit of nine times seed3 = " + (9*seed3) % 10);
+                if (codeNumSeed > 4) {
+                  proSho ("codeNumSeed is greater than four");
+                  codeNum = codeNumSeed - 4;
+                } else {
+                  proSho ("codeNumSeed is less than four");
+                  codeNum = codeNumSeed;
+                }
+                
+                
+                
+                if (finalSeed.toString().substr(2, 1) === "0" || finalSeed.toString().substr(2, 1) === "9") {
+                  proSho ("third letter of finalSeed string is nine or zero");
+                  codeLetterSeed = (9*seed1) % 10;
+                } else {
+                  proSho ("third letter of finalSeed string is one - eight");
+                  codeLetterSeed = finalSeed.toString().substr(2, 1);
+                }
+                proSho ("finalSeed string = " + finalSeed.toString());
+                proSho ("codeLetterSeed = " + codeLetterSeed);
+                if (codeLetterSeed > 4) {
+                  proSho ("codeLetterNum is greater than four");
+                  codeLetterNum = codeLetterSeed - 4;
+                } else {
+                  proSho ("codeLetterNum is less than four");
+                  codeLetterNum = codeLetterSeed;
+                }
+                
+                
+                
+                proSho ("The third digit of finalSeed = " + finalSeed.toString().substr(2, 1));
+                proSho ("The nine or zero backup is " + 9*seed1.toString())
+                proSho ("codeNumSeed - 4 = " + codeNumSeed - 4);
+                proSho (codeNum + ", " + codeLetterNum + " is the codeNum plus the codeLetterNum.");
+                proSho ("codeLetterNum = " + codeLetterNum);
+                
+                if (codeLetterNum === "1" || codeLetterNum === 1) {
+                  codeLetter = "a";
+                } else if (codeLetterNum === "2" || codeLetterNum === 2) {
+                  codeLetter = "b";
+                } else if (codeLetterNum === "3" || codeLetterNum === 3) {
+                  codeLetter = "c";
+                } else if (codeLetterNum === "4" || codeLetterNum === 4) {
+                  codeLetter = "d";
+                }
+                
+                proSho ("codeLetter = " + codeLetter);
+                
+                display = "Enter number of players.";
+                revealScene();
+              } else if (key - 48 < 10 & done === 2) {
+                seed3 = key - 48;
+                done = 3;
+                display = "Enter Fourth Seed Number.";
+              } else if (key - 48 < 10 & done === 1) {
+                seed2 = key - 48;
+                done = 2;
+                display = "Enter Third Seed Number.";
+              } else if (key - 48 < 10 & done === 0) {
+                seed1 = key - 48;
+                done = 1;
+                display = "Enter Second Seed Number.";
+              }
+            }
+            proSho ("keyPressed = " + keyPressed == true);
+          };
+        }
+        
+        entryScene();
+        
+        }
+    }};
+
+    // Get the canvas that Processing-js will use
+    var canvas = document.getElementById("mycanvas");
+    // Pass the function sketchProc (defined in myCode.js) to Processing's constructor.
+    var processingInstance = new Processing(canvas, sketchProc);
+ </script>
+
+</html>

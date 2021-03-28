@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<!-- This is based on DillingerLee's great template here:
+https://github.com/Team-Code/KA_Offline -->
+<html>
+ <head>
+    <title>Mimic Octopus</title>
+    <style>
+      body {
+        background-image: url("../images/background.jpg");
+        font-family: Garamond, serif;
+      }
+      .main {
+        border: 3px outset rgb(180, 200, 150);
+        background-color: rgb(230, 250, 200);
+        max-width: 800px;
+        margin: auto;
+      }
+      .top {
+        border: 3px solid rgb(185, 205, 155);
+        background-color: rgb(235, 255, 205);
+        max-width: 792px;
+        height: 65px;
+        margin: auto;
+        display: flex;
+      }
+      .top-option {
+        border: 1px solid rgb(185, 205, 155);
+        align-items: center;
+        justify-content: center;
+        width: 130px;
+        height: 65px;
+        float: left;
+        display: flex;
+      }
+      .content {
+        margin: 20px;
+        text-indent: 25px;
+      }
+    </style>
+</head>
+ <body>
+   <div class="main">
+      
+      <div class="top">
+        
+        <a href="../123-abc-homepage.html">
+          <div class="top-option">
+            Homepage
+          </div>
+        </a>
+        
+        <a href="../games">
+          <div class="top-option">
+            Games
+          </div>
+        </a>
+        
+        <a href="../literature">
+          <div class="top-option">
+            Literature
+          </div>
+        </a>
+        
+        <a href="../art">
+          <div class="top-option">
+            Art
+          </div>
+        </a>
+        
+        <a>
+          <div class="top-option">
+            Coming Soon!
+          </div>
+        </a>
+        
+        <a href="../index.html">
+          <div class="top-option">
+            Index
+          </div>
+        </a>
+        
+      </div>
+      
+      <div class="content">
+        <p align="center">
+	        <!--This draws the Canvas on the webpage -->
+          <canvas id="mycanvas"></canvas>
+        </p>
+      </div>
+      
+    </div>
+  </body>
+ 
+ <!-- Run all the JavaScript stuff -->
+ <!-- Include the processing.js library -->
+ <!-- See https://khanacademy.zendesk.com/hc/en-us/articles/202260404-What-parts-of-ProcessingJS-does-Khan-Academy-support- for differences -->
+ <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script>
+ 
+ <script>
+    var sketchProc = function(processingInstance) {
+     with (processingInstance) {
+        size(600, 400);
+        frameRate(30);
+        
+        // ProgramCodeGoesHere
+        /**
+         * █▀▄▀█ ░▀░ █▀▄▀█ ░▀░ █▀▀   █▀▀█ █▀▀ ▀▀█▀▀ █▀▀█ █▀▀█ █░░█ █▀▀
+         * █░▀░█ ▀█▀ █░▀░█ ▀█▀ █░░   █░░█ █░░ ░░█░░ █░░█ █░░█ █░░█ ▀▀█
+         * ▀░░░▀ ▀▀▀ ▀░░░▀ ▀▀▀ ▀▀▀   ▀▀▀▀ ▀▀▀ ░░▀░░ ▀▀▀▀ █▀▀▀ ░▀▀▀ ▀▀▀
+         * A game about trying to blend in and not get caught!
+         * First enter a number 1-9 to set the number of people playing.
+         * Next, the game will select one of you to be the Mimic Octopus.
+         * After that, veiw your private screens one at a time, and if you
+         * are not the Octopus, the game will tell you where on the card
+         * the codeword is. If you are the Octopus, the game will let you
+         * know. After everyone knows either that they are the Octopus or
+         * where the codeword is, the game will show you a card. If you
+         * have the secret code you can find the codeword using this grid:
+         *    1,   2,   3,   4
+         * a
+         * b
+         * c
+         * d
+         * After that, players take turns saying one word that relates to
+         * the codeword. Since the Octopus does not know the codeword,
+         * they must guess and say a word that blends in with the others.
+         * Once everyone has said their word, everyone votes on who they
+         * think the Octopus is. If they get it wrong, the Octopus gets
+         * two points. If they get it correct, the Octopus has one chance
+         * to guess the codeword. If they guess correctly, they get one
+         * point, while if they guess incorrectly, everyone else gets one
+         * point. Play goes untill someone gets five points.
+         **/
+        {
+        var numberOfPlayers = 0;
+        var Octopus = 0;
+        var cardNum = 0;
+        var codeNum = 0;
+        var codeLetterNum = 0;
+        var codeLetter = "z";
+        var wait = 0;
+        var playerUp = 1;
+        var display = "Player " + playerUp + ", press " + playerUp + ".";
+        var show = 0;
+        var cards = ["This is not a card!",
+"Fireman          Policeman       Doctor            Musician \n\n\nPlummer         Farmer             Author            Artist\n\n\nProgrammer   Photographer   Construction   Factory\n\n\nTrucker           House Keeper   Fast Food      Actor",
+"Accordion     Trumpet     Cello              Bass\n\n\nBagpipes       Guitar        Tuba              Flute\n\n\nOcarina         Drums        Banjo             Piano\n\n\nUkulele          Violin          Clarinet          Harmonica",
+"Watermelon       Blueberry       Tomato       Grape\n\n\nRaspberry          Pepper           Carrot        Apple\n\n\nCucumber          Banana          Cherry       Orange\n\n\nPineapple           Pear               Lemon      Strawberry",
+"Snowboarding        Hockey        Esports        Golf\n\n\nSwimming              Football        Nascar         Skiing\n\n\nEquestrian              Baseball      Soccer          Biking\n\n\nBasketball              Volleyball     Surfing          Tennis",
+"Polar Bear             Zebra              Robin         Cat\n\n\nChameleon            Falcon            Wolf            Dog\n\n\nHedgehog              Toucan           Shark          Fly\n\n\nDolphin                  Rabbit             Lion           Deer",
+"Beauty & Beast     The Grinch     Tangled     Moana\n\n\nThe Lego Movie     Toy Story       Frozen       Home\n\n\nFinding Nemo         Zootopia       Brave         Trolls\n\n\nThe Incredibles       Big Hero 6    Inside Out   Cars", "United States        Iceland           Russia           India\n\n\nGreat Britain         Mexico            France          Spain\n\n\nGreenland            Canada           Brazil            Japan\n\n\nGermany              Australia          Israel            China", "Bathsheba            Rachel            Miriam            Eve\n\n\nElizabeth              Hannah           Esther            Jael\n\n\nRebekah               Jezebel           Rahab           Ruth\n\n\nDeborah                Candice          Sarah            Mary", "Snakes & Ladders       Stratego       Trouble       Life\n\n\nGuess Who                  Scrabble      Othello       Clue\n\n\nCandyland                   Checkers      Chess        Blurt\n\n\nBattleship                    Monopoly      Catan        Sorry"];
+        var numOfCards = 9;
+        var white = [240, 190, 160];
+        var brown = [70, 35, 20];
+        
+        var startScreen = function() {
+            var cardScene = function () {
+                draw = function() {
+                    background (white[0], white[1], white[2]);
+                    textSize (25);
+                    fill (brown[0], brown[1], brown[2]);
+                    text (cards[cardNum], 10, 50);
+                    text ("Press 'd' when done.", 10, 375);
+                    if (keyPressed !== false & key.toString() === "d") {
+                        numberOfPlayers = 0;
+                        Octopus = 0;
+                        cardNum = 0;
+                        codeNum = 0;
+                        codeLetterNum = 0;
+                        codeLetter = "z";
+                        wait = 0;
+                        playerUp = 1;
+                        display = "Player " + playerUp + ", press " + playerUp + ".";
+                        show = 0;
+                        startScreen();
+                    }
+                };
+            };
+            var revealScreen = function() {
+                draw = function() {
+                    if (playerUp < numberOfPlayers || playerUp === numberOfPlayers) {
+                        background (brown[0], brown[1], brown[2]);
+                        fill (white[0], white[1], white[2]);
+                        textSize (25);
+                        text (display, 40, 200);
+                        if (show === 1) {
+                            text ("Press 'r' to continue.", 40, 250);
+                            if (keyPressed !== false & key.toString() === "r") {
+                                //println ("are");
+                                show = 0;
+                                playerUp ++;
+                                display = "Player " + playerUp + ", press " + playerUp + ".";
+                                wait = 1;
+                                revealScreen();
+                            }
+                        }
+                        if (keyPressed !== false && key - 48 === playerUp && wait === 1) {
+                            wait = 0;
+                            //println ("one");
+                            if (playerUp !== Octopus) {
+                                display = codeNum + "," + codeLetter + " is the code.";
+                                show = 1;
+                            } else if (playerUp === Octopus) {
+                                display = "You are the Octopus!";
+                                show = 1;
+                            }
+                        }
+                        
+                    } else if (playerUp > numberOfPlayers) {
+                        background (white[0], white[1], white[2]);
+                        fill (brown[0], brown[1], brown[2]);
+                        textSize (25);
+                        text ("All ready! Press 'p' to play!", 75, 200);
+                        if (keyPressed !== false & key.toString() === "p") {
+                            cardScene();
+                        }
+                    }
+                };
+            };
+            
+            cardNum = ceil(random(0, numOfCards));
+            codeNum = ceil(random(0, 4));
+            codeLetterNum = ceil(random(0, 4));
+            if (codeLetterNum === 1) {
+                codeLetter = "a";
+            } else if (codeLetterNum === 2) {
+                codeLetter = "b";
+            } else if (codeLetterNum === 3) {
+                codeLetter = "c";
+            } else if (codeLetterNum === 4) {
+                codeLetter = "d";
+            }
+            //println (cardNum + "; " + codeNum + "," + codeLetter);
+            draw = function() {
+                background (white[0], white[1], white[2]);
+                fill (brown[0], brown[1], brown[2]);
+                textSize (33);
+                text ("New game!\nEnter number of players.", 20, 170);
+                if (numberOfPlayers === 0) {
+                    if (keyPressed === false) {
+                        wait = 1;
+                    } else {
+                        wait = 0;
+                    }
+                    if (wait === 0 & key - 48 < 10) {
+                        wait = 1;
+                        numberOfPlayers = key - 48;
+                        //println (numberOfPlayers);
+                        wait = 0;
+                    }
+                } else if (wait === 0) {
+                    wait = 1;
+                    var raw = random (0, numberOfPlayers);
+                    Octopus = ceil(raw);
+                    //println (Octopus);
+                    revealScreen();
+                }
+            };
+        };
+        
+        
+        startScreen();
+        
+        }
+    }};
+
+    // Get the canvas that Processing-js will use
+    var canvas = document.getElementById("mycanvas");
+    // Pass the function sketchProc (defined in myCode.js) to Processing's constructor.
+    var processingInstance = new Processing(canvas, sketchProc);
+ </script>
+
+</html>

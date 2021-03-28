@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>mouseIn = true!</title>
+    
+    <style>
+      body {
+        background-image: url("../images/background.jpg");
+        font-family: Garamond, serif;
+      }
+      .main {
+        border: 3px outset rgb(180, 200, 150);
+        background-color: rgb(230, 250, 200);
+        max-width: 800px;
+        margin: auto;
+      }
+      .top {
+        border: 3px solid rgb(185, 205, 155);
+        background-color: rgb(235, 255, 205);
+        max-width: 792px;
+        height: 65px;
+        margin: auto;
+        display: flex;
+      }
+      .top-option {
+        border: 1px solid rgb(185, 205, 155);
+        align-items: center;
+        justify-content: center;
+        width: 130px;
+        height: 65px;
+        float: left;
+        display: flex;
+      }
+      .content {
+        margin: 20px;
+        text-indent: 25px;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <div class="main">
+      
+      <div class="top">
+        
+        <a href="../123-abc-homepage.html">
+          <div class="top-option">
+            Homepage
+          </div>
+        </a>
+        
+        <a href="../games">
+          <div class="top-option">
+            Games
+          </div>
+        </a>
+        
+        <a href="../literature">
+          <div class="top-option">
+            Literature
+          </div>
+        </a>
+        
+        <a href="../art">
+          <div class="top-option">
+            Art
+          </div>
+        </a>
+        
+        <a>
+          <div class="top-option">
+            Coming Soon!
+          </div>
+        </a>
+        
+        <a href="../index.html">
+          <div class="top-option">
+            Index
+          </div>
+        </a>
+        
+      </div>
+      
+      <div class="content">
+        <h1>Keep your mouse in the orange rectangle!</h1>
+        <h3>If your mouse goes into the green you lose.</h3>
+        <h5>Make it to the purple to win.</h5>
+        <h6><a href="#game">Click this to center your screen around the game.</a></h6>
+        <p align="center">
+          <!--This draws the Canvas on the webpage -->
+          <a id="game"><canvas id="mycanvas"></canvas></a>
+        </p>
+      </div>
+      
+    </div>
+  </body>
+  
+   <!-- Run all the JavaScript stuff -->
+ <!-- Include the processing.js library -->
+ <!-- See https://khanacademy.zendesk.com/hc/en-us/articles/202260404-What-parts-of-ProcessingJS-does-Khan-Academy-support- for differences -->
+ <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script>
+ 
+ <script>
+    var sketchProc = function(processingInstance) {
+     with (processingInstance) {
+        size(400, 600);
+        frameRate(30);
+        
+        // ProgramCodeGoesHere
+        var recty = 0;
+        var recth = 50;
+        var mouseIn = true;
+        var gameStart = false;
+        
+        var lose = function() {
+          noLoop();
+          fill (200, 200, 200, 200);
+          rect (200, 300, 400, 600);
+          fill (0, 0, 0);
+          textSize (25);
+          textAlign (CENTER, CENTER);
+          text ("You lost!", 200, 300);
+        };
+        
+        var win = function() {
+          noLoop();
+          fill (200, 200, 200, 200);
+          rect (200, 300, 400, 600);
+          fill (0, 0, 0);
+          textSize (25);
+          textAlign (CENTER, CENTER);
+          text ("You won!", 200, 300);
+        };
+        
+        var timer = 0;
+        mouseOver = function() {
+          gameStart = true;
+        };
+        draw = function() {
+          background (0, 255, 165);
+          noStroke();
+          rectMode (CENTER);
+          fill (165, 0, 255);
+          rect (200, 590, 400, 20);
+          fill (255, 165, 0);
+          rect (200, recty, 10, recth);
+          if (gameStart === true) {
+            if (195 < mouseX && mouseX < 205 && (recty - (recth/2)) < mouseY   && mouseY < (recty + (recth/2))) {
+              mouseIn = true;
+            } else {
+              lose();
+            }
+            if (mouseY > 580) {
+              win();
+            }
+            recty ++;
+            timer ++;
+            if (timer === 15) {
+              timer = 0;
+              recth --;
+            }
+            textSize (25);
+            text ((recty/10)-((recty/10)%1), 300, 30);
+          }
+        };
+
+    }};
+
+    // Get the canvas that Processing-js will use
+    var canvas = document.getElementById("mycanvas");
+    // Pass the function sketchProc (defined in myCode.js) to Processing's constructor.
+    var processingInstance = new Processing(canvas, sketchProc);
+ </script>
+  
+</html>

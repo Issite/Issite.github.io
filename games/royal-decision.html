@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!-- This is based on DillingerLee's great template here:
+https://github.com/Team-Code/KA_Offline -->
+<html>
+ <head>
+    <title>DDS2 Thank You!</title>
+</head>
+ <body>
+    <p align="center">
+	<!--This draws the Canvas on the webpage -->
+      <canvas id="mycanvas"></canvas>
+    </p>
+ </body>
+ 
+ <!-- Run all the JavaScript stuff -->
+ <!-- Include the processing.js library -->
+ <!-- See https://khanacademy.zendesk.com/hc/en-us/articles/202260404-What-parts-of-ProcessingJS-does-Khan-Academy-support- for differences -->
+ <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script>
+ 
+ <script>
+    var sketchProc = function(processingInstance) {
+     with (processingInstance) {
+        size(800, 600);
+        frameRate(30);
+        
+        // ProgramCodeGoesHere
+        var money = 100;
+        var popul = 100;
+        var might = 100;
+        var clout = 100;
+        var pr = true;
+        var request = function(message, numOfOptions, op1Mess, op2Mess, op3Mess, op4Mess, op1Cons, op2Cons, op3Cons, op4Cons) {
+          background (225, 225, 225);
+          message = message;
+          numOfOptions = numOfOptions;
+          op1Mess = op1Mess;
+          op2Mess = op2Mess;
+          op3Mess = op3Mess;
+          op4Mess = op4Mess;
+          op1Cons = op1Cons;
+          op2Cons = op2Cons;
+          op3Cons = op3Cons;
+          op4Cons = op4Cons;
+          textSize (25);
+          fill (50, 50, 50);
+          text (message, 20, 50);
+          
+          if (numOfOptions >= 1) {
+            fill (50, 50, 50);
+            rect (20, 80, 350, 250);
+            fill (225, 225, 225);
+            text (op1Mess, 40, 120, 330, 200);
+          }
+          
+          if (numOfOptions >= 2) {
+            fill (50, 50, 50);
+            rect (420, 80, 350, 250);
+            fill (225, 225, 225);
+            text (op2Mess, 440, 120, 330, 200);
+          }
+          
+          if (numOfOptions >= 3) {
+            fill (50, 50, 50);
+            rect (20, 380, 350, 250);
+            fill (225, 225, 225);
+            text (op3Mess, 40, 420, 330, 200);
+          }
+          
+          if (numOfOptions >= 4) {
+            fill (50, 50, 50);
+            rect (420, 380, 350, 250);
+            fill (225, 225, 225);
+            text (op4Mess, 440, 420, 330, 200);
+          }
+          
+          keyPressed = function() {
+            println ("Pressed");
+            println (key - 48);
+            println (numOfOptions);
+            println (key - 48 < numOfOptions + 1);
+            if (key - 48 < numOfOptions + 1) {
+              println ("Less than");
+              
+              if (key - 48 === 1) {
+                println ("one");
+                
+                if (((op1Cons - (op1Cons % 1000000000000000))/1000000000000000) % 10 === 1) {
+                  clout += (op1Cons % 1000000000000000) - (op1Cons % 1000000000000);
+                } else if (((op1Cons - (op1Cons % 1000000000000000))/1000000000000000) % 10 === 0) {
+                  clout -= (op1Cons % 1000000000000000) - (op1Cons % 1000000000000);
+                }
+                
+                if (((op1Cons - (op1Cons % 100000000000))/100000000000) % 10 === 1) {
+                  popul += (op1Cons % 100000000000) - (op1Cons % 100000000);
+                } else if (((op1Cons - (op1Cons % 100000000000))/100000000000) % 10 === 0) {
+                  popul -= (op1Cons % 100000000000) - (op1Cons % 100000000);
+                }
+                
+                if (((op1Cons - (op1Cons % 10000000))/10000000) % 10 === 1) {
+                  might += (op1Cons % 10000000) - (op1Cons % 10000);
+                } else if (((op1Cons - (op1Cons % 10000000))/10000000) % 10 === 0) {
+                  might -= (op1Cons % 10000000) - (op1Cons % 10000);
+                }
+                
+                if (((op1Cons - (op1Cons % 1000))/1000) % 10 === 1) {
+                  clout += (op1Cons % 1000) - (op1Cons % 1);
+                } else if (((op1Cons - (op1Cons % 1000))/1000) % 10 === 0) {
+                  clout -= (op1Cons % 1000) - (op1Cons % 1);
+                }
+                
+                println (money + ", " + popul + ", " + might + ", " + clout);
+                
+              } else if (key - 48 === 2) {
+                
+              } else if (key - 48 === 3) {
+                
+              } else if (key - 48 === 4) {
+                
+              }
+            }
+          };
+        };
+        draw = function() {
+          request ("Hello!", 4, "Hi!", "Hoi!", "Holla!", "This is an incredibly long string that goes on forever and ever and ever to test out all of my code!", 1010010000011020, 00000000000000000, 0000000000000000, 0000000000000000);
+          //keyPressed = function() {
+            //println (money + ", " + popul + ", " + might + ", " + clout);
+          //};
+        };
+    }};
+
+    // Get the canvas that Processing-js will use
+    var canvas = document.getElementById("mycanvas");
+    // Pass the function sketchProc (defined in myCode.js) to Processing's constructor.
+    var processingInstance = new Processing(canvas, sketchProc);
+ </script>
+
+</html>
