@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>HTML Page</title>
+    
+    <style>
+      body {
+        background-image: url("../images/background.jpg");
+        font-family: Garamond, serif;
+      }
+      .main {
+        border: 3px outset rgb(180, 200, 150);
+        background-color: rgb(230, 250, 200);
+        max-width: 800px;
+        margin: auto;
+      }
+      .top {
+        border: 3px solid rgb(185, 205, 155);
+        background-color: rgb(235, 255, 205);
+        max-width: 792px;
+        height: 65px;
+        margin: auto;
+        display: flex;
+      }
+      .top-option {
+        border: 1px solid rgb(185, 205, 155);
+        align-items: center;
+        justify-content: center;
+        width: 130px;
+        height: 65px;
+        float: left;
+        display: flex;
+      }
+      .content {
+        margin: 20px;
+        text-indent: 25px;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <div class="main">
+      
+      <div class="top">
+        
+        <a href="../123-abc-homepage.html">
+          <div class="top-option">
+            Homepage
+          </div>
+        </a>
+        
+        <a href="../games">
+          <div class="top-option">
+            Games
+          </div>
+        </a>
+        
+        <a href="../literature">
+          <div class="top-option">
+            Literature
+          </div>
+        </a>
+        
+        <a href="../art">
+          <div class="top-option">
+            Art
+          </div>
+        </a>
+        
+        <a>
+          <div class="top-option">
+            Coming Soon!
+          </div>
+        </a>
+        
+        <a href="../index.html">
+          <div class="top-option">
+            Index
+          </div>
+        </a>
+        
+      </div>
+      
+      <div class="content">
+        <h1>Welcome to an HTML testing page!</h1>
+        <p align="center">
+      	  <!--This draws the Canvas on the webpage -->
+          <canvas id="mycanvas"></canvas>
+        </p>
+        <h2>This text is below the Processing.js canvas.</h2>
+        <h3>This <br>text <br>has <br>line <br>breaks!</h3>
+        <h4>Four is <em>greater</em> than Pi!</h4>
+        <h5>I was going to say we should celebrate four, but I'm an h5.</h5>
+        <h6>And I bring up the rear, small as can be.</h6>
+        <p>At least you're still a heading, I'm <strong>just some text</strong>! I only have one charactor in my tag!</p>
+        <ul>
+          <li>I am the first item in an unordered list!</li>
+          <li>I am the second!</li>
+          <li>And I am the last. :(</li>
+        </ul>
+        <ol>
+          <li>+ 1 = 2</li>
+          <li>+ 1 = 3</li>
+          <li>+ 1 = 4</li>
+          <li>is the magic number. Don't you love this jokey ordered list?</li>
+        </ol>
+        <p><a href="im-test.html" target="_blank">This is a link to another webpage for P.js image testing!</a> <a href="#inlink-location">Click this link to zoom down the page!</a><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><a id="inlink-location">You clicked one of the links above!</a> (Now you have to scroll back up. Bwa ha ha!)</p>
+      </div>
+      
+    </div>
+  </body>
+  
+  <!-- Run all the JavaScript stuff -->
+  <!-- Include the processing.js library -->
+  <!-- See https://khanacademy.zendesk.com/hc/en-us/articles/202260404-What-parts-of-ProcessingJS-does-Khan-Academy-support- for differences -->
+  <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script>
+ 
+  <script>
+    var sketchProc = function(processingInstance) {
+     with (processingInstance) {
+        size(400, 400);
+        frameRate(30);
+        
+        // ProgramCodeGoesHere
+        draw = function() {
+          background(0, 255, 165);
+          textSize(25);
+          fill (355, 165, 0);
+          text("This is the text Processing.js \ndisplays, though you can \nchange it.", 10, height/2);
+        };
+    }};
+
+    // Get the canvas that Processing-js will use
+    var canvas = document.getElementById("mycanvas");
+    // Pass the function sketchProc (defined in myCode.js) to Processing's constructor.
+    var processingInstance = new Processing(canvas, sketchProc);
+ </script>
+  
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>HTML Page</title>
+    
+    <style>
+      body {
+        background-image: url("../images/background.jpg");
+        font-family: Garamond, serif;
+      }
+      .main {
+        border: 3px outset rgb(180, 200, 150);
+        background-color: rgb(230, 250, 200);
+        max-width: 800px;
+        margin: auto;
+      }
+      .top {
+        border: 3px solid rgb(185, 205, 155);
+        background-color: rgb(235, 255, 205);
+        max-width: 792px;
+        height: 65px;
+        margin: auto;
+        display: flex;
+      }
+      .top-option {
+        border: 1px solid rgb(185, 205, 155);
+        align-items: center;
+        justify-content: center;
+        width: 130px;
+        height: 65px;
+        float: left;
+        display: flex;
+      }
+      .content {
+        margin: 20px;
+        text-indent: 25px;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <div class="main">
+      
+      <div class="top">
+        
+        <a href="../123-abc-homepage.html">
+          <div class="top-option">
+            Homepage
+          </div>
+        </a>
+        
+        <a href="../games">
+          <div class="top-option">
+            Games
+          </div>
+        </a>
+        
+        <a href="../literature">
+          <div class="top-option">
+            Literature
+          </div>
+        </a>
+        
+        <a href="../art">
+          <div class="top-option">
+            Art
+          </div>
+        </a>
+        
+        <a>
+          <div class="top-option">
+            Coming Soon!
+          </div>
+        </a>
+        
+        <a href="../index.html">
+          <div class="top-option">
+            Index
+          </div>
+        </a>
+        
+      </div>
+      
+      <div class="content">
+        <p align="center">
+          <!--This draws the Canvas on the webpage -->
+          <canvas id="mycanvas"></canvas>
+          <canvas id="othercanvas"></canvas>
+        <p>This is a testing page for images!</p>
+      </div>
+      
+    </div>
+  </body>
+  
+  <!-- Run all the JavaScript stuff -->
+ <!-- Include the processing.js library -->
+ <!-- See https://khanacademy.zendesk.com/hc/en-us/articles/202260404-What-parts-of-ProcessingJS-does-Khan-Academy-support- for differences -->
+  <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script>
+ 
+  <script>
+    var sketchProc = function(processingInstance) {
+      with (processingInstance) {
+        size(600, 500);
+        frameRate(120);
+        
+        // ProgramCodeGoesHere
+        /* @pjs preload="../Website/images/castle.png"; */
+        imageMode(CENTER);
+        var rage = loadImage("../images/castle.png");
+        var imageX = 200;
+        draw = function() {
+          background (0, 255, 165);
+          image (rage, imageX, height/2);
+          imageX ++;
+          if (imageX > 800) {
+            imageX = -200;
+          }
+        };
+      }
+    };
+    
+    
+    // Get the canvas that Processing-js will use
+    var canvas = document.getElementById("mycanvas");
+    // Pass the function sketchProc (defined in myCode.js) to Processing's constructor.
+    var processingInstance = new Processing(canvas, sketchProc);
+  </script>
+  <script>
+    var variable = function(processingInstance) {
+      with(processingInstance) {
+        size(400, 700);
+        frameRate(30);
+        var recty = 0;
+        draw = function() {
+          background (0, 255, 165);
+          rect (200, recty, 10, 10);
+          recty ++;
+          if (recty === 700) {
+            recty = 0;
+          }
+        };
+      }
+    };
+    var otherCanvas = document.getElementById("othercanvas");
+    var processingInstance = new Processing(otherCanvas, variable);
+  </script>
+  
+</html>
