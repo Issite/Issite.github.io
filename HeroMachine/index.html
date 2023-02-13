@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <title>HeroMachine*</title>
+        <meta charset="UTF-8">
+        
+        <style>
+            canvas {
+                border-width: thin;
+                border-style: solid;
+                border-color: black;
+                border-radius: 5px;
+            }
+            input {
+                display: block;
+            }
+            #machine {
+                display: flex;
+                justify-content: center;
+            }
+        </style>
+        
+        <script src="scripts/p5.min.js"></script>
+        <script src="scripts/item.js"></script>
+        <script src="scripts/layers.js"></script>
+        <script src="scripts/viewport.js"></script>
+    </head>
+    <body>
+        <div id="machine">
+            <div id ="leftBox" class="sideBox"></div>
+            <div id="viewportDiv" class="sideBox"></div>
+            <div id ="rightBox" class="sideBox">
+                <div id ="colorDiv">
+                    <input id="lineColor" type="color" oninput="lineColorUpdate()">
+                    <input id="colorOne" type="color" oninput="colorOneUpdate()">
+                    <input id="colorTwo" type="color" oninput="colorTwoUpdate()">
+                </div>
+                <div id="transformDiv">
+                    Translate
+                    <input id="transX" type="number" oninput="translateUpdate()">
+                    <input id="transY" type="number" oninput="translateUpdate()">
+                    Scale
+                    <input id="scaleX" type="number" step="0.05" oninput="scaleUpdate()">
+                    <input id="scaleY" type="number" step="0.05" oninput="scaleUpdate()">
+                    Rotate
+                    <input id="rotate" type="number" step="0.25" oninput="rotateUpdate()">
+                </div>
+                <div id="layerDiv">
+                    <input type="button" value="Layer up" onclick="layerUp()">
+                    <input type="button" value="Layer down" onclick="layerDown()">
+                    <input type="button" value="Top layer" onclick="topLayer()">
+                    <input type="button" value="Bottom layer" onclick="bottomLayer()">
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
