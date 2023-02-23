@@ -66,7 +66,6 @@ function mouseMoved() {
     if (mouseX > 0 && mouseX < 400 && mouseY > 0 && mouseY < 600) {
         hover = layers.clicked();
         if (hover) {
-            console.log("hover");
             hover.hover = true;
         }
         redraw();
