@@ -17,16 +17,51 @@
                 display: flex;
                 justify-content: center;
             }
+            #optionDiv {
+                display: flex;
+            }
+            .option {
+                border-width: 1px;
+                border-style: solid;
+                border-color: black;
+                border-radius: 5px;
+            }
+            .selectedOption {
+                border-width: 1px 1px 5px;
+                border-style: solid;
+                border-color: black;
+                border-radius: 5px;
+            }
         </style>
         
         <script src="scripts/p5.min.js"></script>
         <script src="scripts/item.js"></script>
         <script src="scripts/layers.js"></script>
-        <script src="scripts/viewport.js"></script>
+        <script src="scripts/option.js"></script>
+        <script src="scripts/main.js"></script>
     </head>
     <body>
         <div id="machine">
-            <div id ="leftBox" class="sideBox"></div>
+            <div id="leftBox" class="sideBox">
+                <div id="itemSelect">
+                    <select id="topCat" oninput="itemSelectUpdate()">
+                        <option value="body" selected>body</option>
+                        <option value="shirt">shirt</option>
+                        <option value="pants">pants</option>
+                    </select>
+                    <select id="botCat" oninput="itemSelectUpdate()">
+                        <option value="male" selected>male</option>
+                        <option value="female">female</option>
+                    </select>
+                    <div id="optionDiv" width="400" height="400">
+                        <div id="optionDiv0"></div>
+                        <div id="optionDiv1"></div>
+                        <div id="optionDiv2"></div>
+                        <div id="optionDiv3"></div>
+                    </div>
+                    <input type="button" value="Remove Item" onclick="unAddItem()">
+                </div>
+            </div>
             <div id="viewportDiv" class="sideBox"></div>
             <div id ="rightBox" class="sideBox">
                 <div id ="colorDiv">
