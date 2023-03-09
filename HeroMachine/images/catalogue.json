@@ -1,0 +1,13 @@
+{
+    "categories":{
+        "body":["male","female"],
+        "shirt":["tshirt","coat"],
+        "pants":["trousers","skirts"]
+    },
+    "items":{
+        "body":{
+            "male":[{"name":"body1", "orgin":[[0, 0], [0, 0]], "used":0}],
+            "female":[{"name":"body1", "orgin":[[0, 0], [0, 0]], "used":0}]
+        }
+    }
+}
