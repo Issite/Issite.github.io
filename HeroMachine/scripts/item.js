@@ -1,4 +1,4 @@
-let Item = function(path, trans, orgin, layer, colors, childs, hover) {
+let Item = function(path, trans, orgin, layer, colors, childs, hover, catItem) {
     this.path = path;
     this.lines = loadImage(this.path + "/lines.png");
     this.layer1 = loadImage(this.path + "/layer1.png");
@@ -10,6 +10,7 @@ let Item = function(path, trans, orgin, layer, colors, childs, hover) {
     this.colors = colors;
     this.childs = childs;
     this.hover = hover;
+    this.catItem = catItem;
 };
 
 Item.prototype.draw = function() {
@@ -65,7 +66,7 @@ Item.prototype.clicked = function() {
 };
 
 Item.prototype.transform = function() {
-    let hyp = createVector(this.orgin[0], this.orgin[1]);
+    let hyp = createVector(this.orgin[1][0], this.orgin[1][1]);
     let angle = this.trans[2] + this.parentTrans[2];
     let newHyp = hyp.copy();
     newHyp.setHeading(hyp.heading() + angle);
@@ -76,7 +77,7 @@ Item.prototype.transform = function() {
     let scaleX = hyp.x - (hyp.x*factor[0]);
     let scaleY = hyp.y - (hyp.y*factor[1]);
     
-    translate(rotX + 200 + this.trans[0][0] + this.parentTrans[0][1], rotY + 300 + this.trans[0][1] + this.parentTrans[0][1]);
+    translate(rotX + 200 + this.trans[0][0] + this.parentTrans[0][1] + this.orgin[0][0], rotY + 300 + this.trans[0][1] + this.parentTrans[0][1] + this.orgin[0][1]);
     rotate(angle);
     translate(scaleX, scaleY);
     scale(factor);
