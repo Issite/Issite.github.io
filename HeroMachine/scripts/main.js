@@ -22,7 +22,7 @@ function setup() {
     let viewportDiv = document.getElementById("viewportDiv");
     let viewportCanvas = createCanvas(400, 600);
     viewportCanvas.parent(viewportDiv);
-    
+
     lineColor = document.getElementById("lineColor");
     colorOne = document.getElementById("colorOne");
     colorTwo = document.getElementById("colorTwo");
@@ -31,13 +31,13 @@ function setup() {
     scaleX = document.getElementById("scaleX");
     scaleY = document.getElementById("scaleY");
     rot = document.getElementById("rotate");
-    
+
     layers = new Layers([]);
     options = [];
-    for (let i = 0; i < 16; i ++) {
-        options[i] = new Option(i, false);
+    for (let i = 0; i < 16; i++) {
+        options[i] = new Option(i);
     }
-    
+
     imageMode(CENTER);
     angleMode(DEGREES);
     noLoop();
@@ -80,75 +80,75 @@ function mouseMoved() {
 }
 
 {
-function lineColorUpdate() {
-    if (selected) {
-        selected.colors[0] = lineColor.value;
-        redraw();
+    function lineColorUpdate() {
+        if (selected) {
+            selected.colors[0] = lineColor.value;
+            redraw();
+        }
     }
-}
 
-function colorOneUpdate() {
-    if (selected) {
-        selected.colors[1] = colorOne.value;
-        redraw();
+    function colorOneUpdate() {
+        if (selected) {
+            selected.colors[1] = colorOne.value;
+            redraw();
+        }
     }
-}
 
-function colorTwoUpdate() {
-    if (selected) {
-        selected.colors[2] = colorTwo.value;
-        redraw();
+    function colorTwoUpdate() {
+        if (selected) {
+            selected.colors[2] = colorTwo.value;
+            redraw();
+        }
     }
-}
 
-function translateUpdate() {
-    if (selected) {
-        selected.trans[0] = [parseInt(transX.value), parseInt(transY.value)];
-        redraw();
+    function translateUpdate() {
+        if (selected) {
+            selected.trans[0] = [parseInt(transX.value), parseInt(transY.value)];
+            redraw();
+        }
     }
-}
 
-function scaleUpdate() {
-    if (selected) {
-        selected.trans[1] = [scaleX.value, scaleY.value];
-        redraw();
+    function scaleUpdate() {
+        if (selected) {
+            selected.trans[1] = [scaleX.value, scaleY.value];
+            redraw();
+        }
     }
-}
 
-function rotateUpdate() {
-    if (selected) {
-        selected.trans[2] = parseFloat(rot.value);
-        redraw();
+    function rotateUpdate() {
+        if (selected) {
+            selected.trans[2] = parseFloat(rot.value);
+            redraw();
+        }
     }
-}
 
-function layerUp() {
-    if (selected) {
-        layers.moveUp(selected.layer);
-        redraw();
+    function layerUp() {
+        if (selected) {
+            layers.moveUp(selected.layer);
+            redraw();
+        }
     }
-}
 
-function layerDown() {
-    if (selected) {
-        layers.moveDown(selected.layer);
-        redraw();
+    function layerDown() {
+        if (selected) {
+            layers.moveDown(selected.layer);
+            redraw();
+        }
     }
-}
 
-function topLayer() {
-    if (selected) {
-        layers.moveTop(selected.layer);
-        redraw();
+    function topLayer() {
+        if (selected) {
+            layers.moveTop(selected.layer);
+            redraw();
+        }
     }
-}
 
-function bottomLayer() {
-    if (selected) {
-        layers.moveBottom(selected.layer);
-        redraw();
+    function bottomLayer() {
+        if (selected) {
+            layers.moveBottom(selected.layer);
+            redraw();
+        }
     }
-}
 }
 
 function itemSelectUpdate(start) {
@@ -159,10 +159,10 @@ function itemSelectUpdate(start) {
     }
     if (topCat.value !== topCatVal) {
         topCatVal = topCat.value;
-        for (let i = 0; i <= botCat.length; i ++) {
+        for (let i = 0; i <= botCat.length; i++) {
             botCat.remove(0);
         }
-        for (let i = 0; i < catalogue["categories"][topCatVal].length; i ++) {
+        for (let i = 0; i < catalogue["categories"][topCatVal].length; i++) {
             let option = document.createElement("option");
             option.value = catalogue["categories"][topCatVal][i];
             option.text = catalogue["categories"][topCatVal][i];
@@ -171,17 +171,34 @@ function itemSelectUpdate(start) {
     }
     botCatVal = botCat.value;
     let path = "images/" + topCatVal + "/" + botCatVal + "/";
-    for (let i = 0; i < min(16, catalogue["items"][topCatVal][botCatVal].length); i ++) {
+    for (let i = 0; i < min(16, catalogue["items"][topCatVal][botCatVal].length); i++) {
         let itemPath = path + catalogue["items"][topCatVal][botCatVal][i].name;
-        options[i].change(itemPath, catalogue["items"][topCatVal][botCatVal][i]);
+        options[i].change(itemPath, catalogue["items"][topCatVal][botCatVal][i], [topCatVal, botCatVal]);
+    }
+}
+
+function clearOptions(type) {
+    console.log("clearing");
+    for (let i = 0; i < options.length; i ++) {
+        if (options[i].type[0] === type[0] && options[i].type[1] === type[1] && options[i].used) {
+            console.log("match");
+            options[i].unUse();
+            let toRemove = [];
+            for (let j = layers.items.length-1; j >= 0; j --) {
+                console.log(layers.items[j].path + options[i].type[0]);
+                if (layers.items[j].path.includes(options[i].type[0])) {
+                    layers.remove(j);
+                }
+            }
+        }
     }
 }
 
 function addItem(path, id) {
     let truePath = path + "/..";
     let newItem = new Item(truePath, [[0, 0], [1, 1], 0], options[id].item.orgin, 0,
-                           [color(0, 0, 0), color(255, 255, 255), color(127, 127, 127)],
-                           [], false, options[id].item);
+        [color(0, 0, 0), color(255, 255, 255), color(127, 127, 127)],
+        [], false, options[id].item);
     selected = newItem;
     lineColor.value = "#" + hex(red(selected.colors[0]), 2) + hex(green(selected.colors[0]), 2) + hex(blue(selected.colors[0]), 2);
     colorOne.value = "#" + hex(red(selected.colors[1]), 2) + hex(green(selected.colors[1]), 2) + hex(blue(selected.colors[1]), 2);
@@ -192,18 +209,27 @@ function addItem(path, id) {
     scaleY.value = selected.trans[1][1];
     rot.value = selected.trans[2];
     
-    layers.add(newItem);
     options[id].use();
+    layers.add(newItem);
     redraw();
+}
+
+function parity() {
+    parityButton = document.getElementById("parity");
+    if (parityButton.value === "Singles") {
+        parityButton.value = "Multiples";
+    } else {
+        parityButton.value = "Singles";
+    }
 }
 
 function unAddItem() {
     if (selected) {
-        for (var i = 0; i < options.length; i ++) {
+        for (var i = 0; i < options.length; i++) {
             if (options[i].item === selected.catItem) {
                 options[i].unUse();
             } else {
-                selected.catItem.used --;
+                selected.catItem.used--;
             }
         }
         layers.remove(selected.layer);
